@@ -37,7 +37,7 @@ Individuo SegundoMelhorIndividuo(const std::vector<Individuo>& populacao){
 }
 int PiorIndividuo(const std::vector <Individuo>& populacao){
     int pior = 0;
-    for (int i = 1; i < populacao.size(); i++){
+    for (int i = 1; i < (int)populacao.size(); i++){
         if (populacao[i].Fitness < populacao[pior].Fitness){
             pior = i;
         }
