@@ -1,6 +1,8 @@
 #include "../include/read.hpp"
 #include <fstream>
 #include <iostream>
+#include <ctime>
+#include <sstream>
 
 EntradadaDados LerArquivo(const std::string& filename)
 {
@@ -27,6 +29,24 @@ EntradadaDados LerArquivo(const std::string& filename)
     file.close();
 
     return input;
+}
+
+std::string NomeOutput()
+{
+    std::time_t now = std::time(nullptr);
+    std::tm* t = std::localtime(&now);
+
+    std::ostringstream oss;
+    oss << "output_"
+        << (t->tm_year + 1900)
+        << (t->tm_mon + 1)
+        << t->tm_mday << "_"
+        << t->tm_hour
+        << t->tm_min
+        << t->tm_sec
+        << ".dat";
+
+    return oss.str();
 }
 
 

@@ -21,6 +21,8 @@ struct EntradadaDados
 
 EntradadaDados LerArquivo(const std::string& filename);
 
+std::string NomeOutput();
+
 void SalvarDados(const std::string& filename, int generacao, double a, double b, double fitness);
 
 #endif

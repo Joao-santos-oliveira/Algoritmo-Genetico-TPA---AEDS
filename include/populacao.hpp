@@ -14,5 +14,6 @@ Individuo MelhorIndividuo(const std::vector <Individuo>& populacao);
 Individuo SegundoMelhorIndividuo(const std::vector <Individuo>& populacao);
 int PiorIndividuo(const std::vector <Individuo>& populacao);
 void SubsPior(std::vector <Individuo>& populacao, const Individuo& individuo);
+void calcularIntervalos(const std::vector<double>& dataX,const std::vector<double>& dataY,double& minA, double& maxA,double& minB, double& maxB);
 
 #endif 

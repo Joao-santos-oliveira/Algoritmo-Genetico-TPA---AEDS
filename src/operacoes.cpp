@@ -40,11 +40,11 @@ std::vector<Individuo> crossover(const Individuo& p1, const Individuo& p2)
 }
 
 
-void mutacao(Individuo& ind, double mutationRate)
-{
-    if(((double)rand()/RAND_MAX) < mutationRate)
-        ind.a += ((double)rand()/RAND_MAX - 0.5);
+    void mutacao(Individuo& ind, double mutationRate)
+    {
+        if(((double)rand()/RAND_MAX) < mutationRate)
+            ind.a += ((double)rand()/RAND_MAX - 0.5);
 
-    if(((double)rand()/RAND_MAX) < mutationRate)
-        ind.b += ((double)rand()/RAND_MAX - 0.5);
-}
+        if(((double)rand()/RAND_MAX) < mutationRate)
+            ind.b += ((double)rand()/RAND_MAX - 0.5);
+    }
