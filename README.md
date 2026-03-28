@@ -65,6 +65,8 @@ Antes de gerar a população, o código calcula automaticamente os intervalos v�
 
 Com esses limites definidos, `gerarPopulacao()` cria `m` indivíduos com valores aleatórios de `a` e `b` dentro desses intervalos. A Geração 0 é, portanto, inteiramente aleatória dentro de um espaço de busca bem delimitado.
 
+Para garantir reprodutibilidade dos experimentos, o algoritmo utiliza uma semente fixa no gerador pseudoaleatório (`srand(42)`). Dessa forma, a mesma sequência de números aleatórios é gerada a cada execução, permitindo a replicação exata dos resultados obtidos.
+
 ### Função de Fitness
 
 O fitness é calculado em `fitness.cpp` com base no Erro Quadrático Médio (MSE) entre a reta do indivíduo e os pontos reais:
@@ -268,18 +270,18 @@ O script `plot.py` é responsável por gerar os gráficos a partir dos dados pro
 
 Certifique-se de possuir o Python 3 instalado:
 
-```bash
-python3 --version
+
+`python3 --version`
 
 Caso não tenha, instale com:
 
-sudo apt update
-sudo apt install python3 python3-pip
+`sudo apt update`
+`sudo apt install python3 python3-pip`
 
 Instale também as bibliotecas necessárias:
 
-pip3 install matplotlib numpy
+`pip3 install matplotlib numpy`
 
 Após executar o algoritmo genetico, execute o comando abaixo para ver o gráfico produzido: 
 
-python3 plot.py
+`python3 plot.py`
