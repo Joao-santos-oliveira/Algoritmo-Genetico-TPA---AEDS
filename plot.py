@@ -81,4 +81,6 @@ plt.grid()
 plt.xlim(min(x), max(x))
 plt.ylim(min(y)-2, max(y)+2)
 
+plt.savefig("images/grafico_caso3.png")
 plt.show()
+
