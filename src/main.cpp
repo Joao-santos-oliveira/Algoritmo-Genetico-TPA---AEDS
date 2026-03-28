@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include <algorithm>
 #include <cstdlib>
 #include <chrono>
@@ -12,9 +13,6 @@
 int main()
 {
     auto inicio = std::chrono::steady_clock::now();
-    std::string outputFile = NomeOutput();
-    std::cout << "Salvando em: " << outputFile << "\n";
-    // INICIALIZAÇÃO
     std::cout << "Executando algoritmo genetico...\n";
 
     // semente fixa para reproduzir resultados
@@ -33,8 +31,6 @@ int main()
     // PRÉ-PROCESSAMENTO
     std::vector<double> dataX;
     std::vector<double> dataY;
-    
-    
 
     for (const auto& ponto : data)
     {
@@ -52,13 +48,14 @@ int main()
     double cutRate = 0.4;
     double mutationRate = 0.05;
 
+    std::ofstream outFile("output.dat");
+    outFile << "geracao fitness erro a b\n";
 
     // LOOP PRINCIPAL (AG)
     for(int gen = 0; gen < generations; gen++)
     {
-        // Avaliação 
+        // Avaliação
         AvaliarPopulacao(pop, dataX, dataY);
-
 
         // Ordenação por fitness
         std::sort(pop.begin(), pop.end(),
@@ -67,24 +64,16 @@ int main()
             return a.Fitness > b.Fitness;
         });
 
+        // Melhor indivíduo da geração
+        Individuo melhor = pop[0];
 
-        // Elitismo 
+        double erro = calcularMSE(melhor, dataX, dataY);
+        SalvarDados(outFile, gen, melhor.Fitness, erro, melhor.a, melhor.b);
+
+        // Elitismo
         int eliteSize = pop.size() * cutRate;
-
         if(eliteSize < 2)
             eliteSize = 2;
-
-        for(int i = 0; i < eliteSize; i++)
-        {
-            SalvarDados(
-                outputFile,
-                gen,
-                pop[i].a,
-                pop[i].b,
-                pop[i].Fitness
-            );
-        }
-
 
         // -------- Reprodução --------
         for(int i = 0; i < populationSize / 2; i++)
@@ -110,6 +99,8 @@ int main()
         }
     }
 
+    outFile.close();
+
     auto fim = std::chrono::steady_clock::now();
     auto duracao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - inicio);
     AvaliarPopulacao(pop, dataX, dataY);
@@ -120,7 +111,6 @@ int main()
     std::cout << "y = " << best.a << "x + " << best.b << std::endl;
     std::cout << "fitness = " << best.Fitness << std::endl;
     std::cout << "Tempo de execucao: " << duracao.count() << " ms" << std::endl;
-
 
     return 0;
 }
