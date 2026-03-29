@@ -315,7 +315,7 @@ Após executar o algoritmo genetico, execute o comando abaixo para ver o gráfic
 
 `python3 plot.py`
 
-<h2>Autores</h2>
+<h2>Autor</h2>
 
 <table>
   <tr>
