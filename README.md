@@ -151,6 +151,8 @@ Algumas escolhas de implementação divergem da especificação proposta para o 
  
 **Struct em vez de matriz m×2** — a especificação sugere representar a população como uma matriz de dimensão m×2 com um vetor auxiliar de fitness. Optou-se por encapsular `a`, `b` e `Fitness` em uma struct `Individuo`, agrupando os dados de cada indivíduo em uma única unidade lógica. Isso melhora a legibilidade, facilita a modularização e é funcionalmente equivalente à representação matricial.
 
+***Mutação apenas nos filhos gerados no Crossover*** - foi testada a aplicação de mutação também sobre a população existente a cada geração, porém os resultados indicaram leve piora no fitness final, optando-se por manter a mutação restrita aos filhos gerados por crossover.
+
 ---
 
 ## Entrada e Saída
