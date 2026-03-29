@@ -304,6 +304,7 @@ Certifique-se de possuir o Python 3 instalado:
 Caso não tenha, instale com:
 
 `sudo apt update`
+
 `sudo apt install python3 python3-pip`
 
 Instale também as bibliotecas necessárias:
@@ -320,7 +321,7 @@ Após executar o algoritmo genetico, execute o comando abaixo para ver o gráfic
   <tr>
     <td align="center">
       <img src="https://github.com/Joao-santos-oliveira.png" width="100px"><br>
-      <b>Arthur Santana</b><br>
+      <b>João Gabriel</b><br>
       <img src="https://img.shields.io/github/followers/Joao-santos-oliveira?label=Seguidores&style=social">
     </td>
   </tr>
