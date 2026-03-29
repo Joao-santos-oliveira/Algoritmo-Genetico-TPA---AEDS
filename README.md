@@ -1,15 +1,28 @@
+<div align="center">
+  <img src="ag_banner_v2.svg" alt="Genetic Algorithm Banner"/>
+
+![C++](https://img.shields.io/badge/C++-17-00599C?style=flat&logo=cplusplus)
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat&logo=python)
+![Build](https://img.shields.io/badge/build-make-brightgreen?style=flat)
+</div>
+
+
+<div align="center">
+
 # Algoritmo Genético — Ajuste de Função Linear
 
-Trabalho Prático de Algoritmos e Estruturas de Dados  
-Implementação de um Algoritmo Genético (AG) para ajuste de reta por mínimos quadrados.
+**Trabalho Prático de Algoritmos e Estruturas de Dados**
+
+Implementação de um Algoritmo Genético (AG) para encontrar a reta que melhor se ajusta a um conjunto de pontos.
+</div>
 
 ---
 
 ## O que é um Algoritmo Genético?
 
-Algoritmos Genéticos são metaheurísticas de busca e otimização inspiradas no processo de seleção natural descrito por Charles Darwin. A ideia central foi formalizada computacionalmente por John Holland na década de 1970, na Universidade de Michigan, e popularizada pelo livro *Adaptation in Natural and Artificial Systems* (1975). Desde então, AGs se tornaram uma das técnicas mais utilizadas para resolver problemas de otimização onde o espaço de busca é grande, complexo ou mal definido.
+Algoritmos Genéticos são metaheurísticas de busca e otimização inspiradas no processo de seleção natural descrito por Charles Darwin. A ideia central foi formalizada e analisada computacionalmente por John Holland na década de 1970, na Universidade de Michigan, sendo popularizada pelo livro *Adaptation in Natural and Artificial Systems* (1975). Desde então, os AGs têm sido amplamente utilizados na resolução de problemas de otimização em espaços de busca grandes, complexos ou mal definidos.
 
-O funcionamento é análogo à evolução biológica: uma população de soluções candidatas evolui ao longo de gerações por meio de seleção, recombinação (crossover) e mutação. Soluções mais aptas têm maior chance de passar seus "genes" para a próxima geração, guiando a busca em direção a regiões mais promissoras do espaço de soluções.
+Seu funcionamento é análogo à evolução biológica: uma população de soluções candidatas evolui ao longo de gerações por meio de operadores genéticos como seleção, recombinação (crossover) e mutação. A avaliação das soluções é realizada por meio de uma função de aptidão, na qual indivíduos mais aptos possuem maior probabilidade de transmitir suas características para as gerações seguintes, guiando a busca em direção a regiões mais promissoras do espaço de soluções.
 
 Neste projeto, cada indivíduo representa uma reta `y = ax + b`, onde os genes `a` (coeficiente angular) e `b` (coeficiente linear) são os parâmetros a serem otimizados. O objetivo é encontrar a reta que melhor se ajusta a um conjunto de pontos fornecidos como entrada.
 
@@ -128,6 +141,15 @@ Para cada geração:
     ↓
 Exibir melhor solução encontrada
 ```
+## Opções de Desing do projeto
+ 
+Algumas escolhas de implementação divergem da especificação proposta para o trabalho, visando melhorar a qualidade da busca evolutiva:
+ 
+**Seleção restrita aos melhores** — a especificação sugere selecionar sempre os dois indivíduos com maior fitness. Entretanto o algoritmo utiliza uma seleção aleatória dentre o top 40% da população ordenada por fitness. Isso introduz diversidade genética na reprodução, evitando que o algoritmo convirja prematuramente para um ótimo local por sempre cruzar os mesmos dois indivíduos.
+ 
+**Dois filhos por crossover** — a especificação ilustra a geração de um único filho `(a1, b2)`. Nesta implementação são gerados dois filhos por operação — `(a1, b2)` e `(a2, b1)` — aproveitando integralmente a troca de genes entre os pais e aumentando a diversidade da população a cada geração.
+ 
+**Struct em vez de matriz m×2** — a especificação sugere representar a população como uma matriz de dimensão m×2 com um vetor auxiliar de fitness. Optou-se por encapsular `a`, `b` e `Fitness` em uma struct `Individuo`, agrupando os dados de cada indivíduo em uma única unidade lógica. Isso melhora a legibilidade, facilita a modularização e é funcionalmente equivalente à representação matricial.
 
 ---
 
@@ -206,19 +228,25 @@ O comportamento do erro foi analisado em três cenários com diferentes níveis 
  
 O AG partiu de um fitness inicial de `0.157` (MSE = 5.330) na geração 0 e convergiu rapidamente nas primeiras gerações. A queda mais expressiva ocorreu até a geração 50, onde o fitness já havia atingido `0.593` (MSE = 0.685). A partir daí o algoritmo estabilizou completamente, sem nenhuma melhora até a geração 299.
  
-A reta encontrada foi `y = -3.10251x + 8.46288`, com fitness final `0.593352` e MSE `0.685339`. O desvio em `b` (8.46 vs 7.00 real) é esperado e representa o limite teórico imposto pelo ruído — a própria reta de mínimos quadrados também não passa pelos pontos. Tempo de execução: **242 ms**.
+> **Resultado final:** `y = -3.10251x + 8.46288` · fitness `0.593352` · MSE `0.685339` · tempo `242 ms`
+ 
+O desvio em `b` (8.46 vs 7.00 real) é esperado e representa o limite teórico imposto pelo ruído, a própria reta de melhor ajuste também não passa pelos pontos.
  
 ### Caso 2 — Ruído moderado (σ = 1), reta `y = 2x + 1`
  
 Com ruído menor, a convergência foi muito mais rápida e expressiva. O fitness saiu de `0.571` na geração 0 para `0.938` já na geração 1 — um salto notável logo na primeira reprodução. Até a geração 11 o fitness já havia atingido `0.986`, estabilizando nesse patamar até o final.
  
-A reta encontrada foi `y = 2.00048x + 0.889262`, com fitness final `0.986053` e MSE `0.014144`. O coeficiente angular `a = 2.00048` é virtualmente idêntico ao real. O pequeno desvio em `b` (0.889 vs 1.000) reflete o ruído residual dos dados. Tempo de execução: **245 ms**.
+> **Resultado final:** `y = 2.00048x + 0.889262` · fitness `0.986053` · MSE `0.014144` · tempo `245 ms`
+ 
+O coeficiente angular `a = 2.00048` é virtualmente idêntico ao real. O pequeno desvio em `b` (0.889 vs 1.000) reflete o ruído residual dos dados.
  
 ### Caso 3 — Ruído mínimo (σ = 0.1), reta `y = 2x + 1`
  
 Com dados quase perfeitos, o AG demonstrou sua capacidade máxima de convergência. A partir da geração 8 o fitness já superava `0.998`, e ao longo das gerações seguintes continuou refinando progressivamente até atingir `0.9998` (MSE = 0.000200) na geração 268, onde estabilizou.
  
-A reta encontrada foi `y = 2.00406x + 0.969988`, com fitness final `0.9998` e MSE `0.000200504`. O refinamento foi contínuo e gradual até o final das 300 gerações, diferentemente dos casos anteriores onde a estabilização ocorreu bem antes. Tempo de execução: **239 ms**.
+> **Resultado final:** `y = 2.00406x + 0.969988` · fitness `0.9998` · MSE `0.000200504` · tempo `239 ms`
+ 
+O refinamento foi contínuo e gradual até o final das 300 gerações, diferentemente dos casos anteriores onde a estabilização ocorreu bem antes.
  
 ### Conclusão
  
@@ -285,3 +313,15 @@ Instale também as bibliotecas necessárias:
 Após executar o algoritmo genetico, execute o comando abaixo para ver o gráfico produzido: 
 
 `python3 plot.py`
+
+<h2>Autores</h2>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/Joao-santos-oliveira.png" width="100px"><br>
+      <b>Arthur Santana</b><br>
+      <img src="https://img.shields.io/github/followers/Joao-santos-oliveira?label=Seguidores&style=social">
+    </td>
+  </tr>
+</table>
