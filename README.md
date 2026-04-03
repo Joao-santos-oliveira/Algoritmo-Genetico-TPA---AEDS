@@ -228,25 +228,25 @@ O comportamento do erro foi analisado em três cenários com diferentes níveis 
  
 ### Caso 1 — Ruído forte (σ = 6), reta `y = -3x + 7`
  
-O AG partiu de um fitness inicial de `0.157` (MSE = 5.330) na geração 0 e convergiu rapidamente nas primeiras gerações. A queda mais expressiva ocorreu até a geração 50, onde o fitness já havia atingido `0.593` (MSE = 0.685). A partir daí o algoritmo estabilizou completamente, sem nenhuma melhora até a geração 299.
+O AG partiu de um fitness inicial de `0.0037` (MSE = 266.50) na geração 0 e convergiu rapidamente nas primeiras gerações. A queda mais expressiva ocorreu até a geração 50, onde o fitness já havia atingido `0.0283` (MSE = 34.2687). A partir da geração 62 o algoritmo estabilizou completamente, mantendo os mesmos parâmetros até a geração final.
  
-> **Resultado final:** `y = -3.10251x + 8.46288` · fitness `0.593352` · MSE `0.685339` · tempo `242 ms`
+> **Resultado final:** `y = -3.10251x + 8.46288` · fitness `0.0283552` · MSE `34.267` · tempo `242 ms`
  
-O desvio em `b` (8.46 vs 7.00 real) é esperado e representa o limite teórico imposto pelo ruído, a própria reta de melhor ajuste também não passa pelos pontos.
+O desvio em `b` (8.46 vs 7.00 real) é esperado e representa o limite teórico imposto pelo ruído, a própria reta de melhor ajuste também não passa pelos pontos. Com σ = 6, os dados apresentam grande dispersão, aumentando significativamente o erro médio quadrático mesmo para a melhor reta possível.
  
 ### Caso 2 — Ruído moderado (σ = 1), reta `y = 2x + 1`
  
-Com ruído menor, a convergência foi muito mais rápida e expressiva. O fitness saiu de `0.571` na geração 0 para `0.938` já na geração 1 — um salto notável logo na primeira reprodução. Até a geração 11 o fitness já havia atingido `0.986`, estabilizando nesse patamar até o final.
+Com ruído moderado, a convergência foi significativamente mais rápida. O fitness saiu de `0.0259` na geração 0 para `0.584`  já na geração 9 — um salto expressivo nas primeiras iterações. A partir da geração 11 o algoritmo praticamente convergiu, realizando apenas pequenos refinamentos até estabilizar completamente por volta da geração 100.
  
-> **Resultado final:** `y = 2.00048x + 0.889262` · fitness `0.986053` · MSE `0.014144` · tempo `245 ms`
+> **Resultado final:** `y = 2.00048x + 0.889262` · fitness `0.585754` · MSE `0.707202` · tempo `245 ms`
  
 O coeficiente angular `a = 2.00048` é virtualmente idêntico ao real. O pequeno desvio em `b` (0.889 vs 1.000) reflete o ruído residual dos dados.
  
 ### Caso 3 — Ruído mínimo (σ = 0.1), reta `y = 2x + 1`
  
-Com dados quase perfeitos, o AG demonstrou sua capacidade máxima de convergência. A partir da geração 8 o fitness já superava `0.998`, e ao longo das gerações seguintes continuou refinando progressivamente até atingir `0.9998` (MSE = 0.000200) na geração 268, onde estabilizou.
+Com dados quase perfeitos, o AG apresentou convergência extremamente rápida. Já na geração 7 o fitness ultrapassou `0.81`, e na geração 13 atingiu `0.96`, indicando forte aproximação da solução ótima. Ao longo das gerações seguintes continuou refinando progressivamente até atingir `0.991051` (MSE = 0.00902988) na geração 271, onde estabilizou.
  
-> **Resultado final:** `y = 2.00406x + 0.969988` · fitness `0.9998` · MSE `0.000200504` · tempo `239 ms`
+> **Resultado final:** `y = 2.00135x + 1.01068` · fitness `0.991051` · MSE `0.00902988` · tempo `239 ms`
  
 O refinamento foi contínuo e gradual até o final das 300 gerações, diferentemente dos casos anteriores onde a estabilização ocorreu bem antes.
  

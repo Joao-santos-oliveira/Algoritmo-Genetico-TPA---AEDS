@@ -26,7 +26,6 @@ std::vector<Individuo> crossover(const Individuo& p1, const Individuo& p2)
     Individuo child1;
     Individuo child2;
 
-    // troca dos genes
     child1.a = p1.a;
     child1.b = p2.b;
 
@@ -39,12 +38,11 @@ std::vector<Individuo> crossover(const Individuo& p1, const Individuo& p2)
     return {child1, child2};
 }
 
-
-    void mutacao(Individuo& ind, double mutationRate)
-    {
-        if(((double)rand()/RAND_MAX) < mutationRate)
+void mutacao(Individuo& ind, double mutationRate)
+{
+    if(((double)rand()/RAND_MAX) < mutationRate)
             ind.a += ((double)rand()/RAND_MAX - 0.5);
 
-        if(((double)rand()/RAND_MAX) < mutationRate)
+    if(((double)rand()/RAND_MAX) < mutationRate)
             ind.b += ((double)rand()/RAND_MAX - 0.5);
     }

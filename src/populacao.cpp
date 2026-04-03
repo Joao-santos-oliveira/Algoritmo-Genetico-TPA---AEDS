@@ -29,13 +29,6 @@ Individuo MelhorIndividuo(const std::vector <Individuo>& populacao){
         return a.Fitness < b.Fitness;
     });
 }
-Individuo SegundoMelhorIndividuo(const std::vector<Individuo>& populacao){
-    std::vector<Individuo> OrdenarPop = populacao;
-    std::sort(OrdenarPop.begin(), OrdenarPop.end(), [](const Individuo& a, const Individuo& b){
-        return a.Fitness > b.Fitness;
-    });
-    return OrdenarPop[1];
-}
 int PiorIndividuo(const std::vector <Individuo>& populacao){
     int pior = 0;
     for (int i = 1; i < (int)populacao.size(); i++){

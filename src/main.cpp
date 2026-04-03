@@ -15,20 +15,19 @@ int main()
     auto inicio = std::chrono::steady_clock::now();
     std::cout << "Executando algoritmo genetico...\n";
 
-    // semente fixa para reproduzir resultados
+    // Semente fixa para reprodutibilidade
     srand(42);
 
 
-    // LEITURA DE DADOS
+    //LEITURA DOS DADOS 
     EntradadaDados input = LerArquivo("data/input.dat");
 
     int populationSize = input.tamanhoPopulacao;
     int generations = input.geracoes;
-
     std::vector<Pontos> data = input.data;
 
 
-    // PRÉ-PROCESSAMENTO
+    // PRÉ-PROCESSAMENTO 
     std::vector<double> dataX;
     std::vector<double> dataY;
 
@@ -39,22 +38,26 @@ int main()
     }
 
 
-    // INICIALIZAÇÃO DA POPULAÇÃO
+    //INICIALIZAÇÃO 
     double minA, maxA, minB, maxB;
     calcularIntervalos(dataX, dataY, minA, maxA, minB, maxB);
+
     std::vector<Individuo> pop;
     gerarPopulacao(pop, populationSize, minA, maxA, minB, maxB);
 
-    double cutRate = 0.4;
-    double mutationRate = 0.05;
+    const double cutRate = 0.4;
+    const double mutationRate = 0.05;
 
+
+    //ARQUIVO DE SAÍDA 
     std::ofstream outFile("output.dat");
     outFile << "geracao fitness erro a b\n";
 
-    // LOOP PRINCIPAL (AG)
+
+    // LOOP PRINCIPAL 
     for(int gen = 0; gen < generations; gen++)
     {
-        // Avaliação
+        // Avaliação da população
         AvaliarPopulacao(pop, dataX, dataY);
 
         // Ordenação por fitness
@@ -64,36 +67,36 @@ int main()
             return a.Fitness > b.Fitness;
         });
 
-        // Melhor indivíduo da geração
-        Individuo melhor = pop[0];
-
+        // Melhor indivíduo
+        const Individuo& melhor = pop[0];
         double erro = calcularMSE(melhor, dataX, dataY);
+
         SalvarDados(outFile, gen, melhor.Fitness, erro, melhor.a, melhor.b);
 
-        // Elitismo
+
+        // REPRODUÇÃO 
         int eliteSize = pop.size() * cutRate;
-        if(eliteSize < 2)
+        if (eliteSize < 2)
             eliteSize = 2;
 
-        // -------- Reprodução --------
         for(int i = 0; i < populationSize / 2; i++)
         {
-            // seleção de pais
+            // Seleção
             Individuo p1 = selecionarPais(pop, cutRate);
             Individuo p2 = selecionarPais(pop, cutRate);
 
-            // crossover
+            // Crossover
             auto children = crossover(p1, p2);
 
-            // mutação
+            // Mutação
             mutacao(children[0], mutationRate);
             mutacao(children[1], mutationRate);
 
-            // avaliação dos filhos
+            // Avaliação dos filhos
             children[0].Fitness = calcularFitness(children[0], dataX, dataY);
             children[1].Fitness = calcularFitness(children[1], dataX, dataY);
 
-            // substituição
+            // Substituição
             SubsPior(pop, children[0]);
             SubsPior(pop, children[1]);
         }
@@ -101,10 +104,12 @@ int main()
 
     outFile.close();
 
+
+    // RESULTADO FINAL 
     auto fim = std::chrono::steady_clock::now();
     auto duracao = std::chrono::duration_cast<std::chrono::milliseconds>(fim - inicio);
-    AvaliarPopulacao(pop, dataX, dataY);
 
+    AvaliarPopulacao(pop, dataX, dataY);
     Individuo best = MelhorIndividuo(pop);
 
     std::cout << "\nMelhor solucao encontrada:\n";

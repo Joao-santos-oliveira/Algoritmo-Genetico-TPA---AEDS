@@ -10,7 +10,6 @@ double calcularMSE(const Individuo& individuo, const std::vector<double>& x, con
         double erro = y_previsto - y[i];
         mse += erro * erro;
     }
-    mse /= n;
     return mse / n;
 }
 
