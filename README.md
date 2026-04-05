@@ -196,7 +196,7 @@ A função `AvaliarPopulacao()` tem complexidade **O(m · n)**, pois para cada u
 
 A ordenação da população por fitness é feita com `std::sort`, cuja complexidade é **O(m log m)** no caso médio.
 
-A seleção `selecionarPais()` é **O(m log m)** por chamada, pois ordena uma cópia da população. Como é chamada `m` vezes por geração (uma para cada filho), o custo total da seleção por geração é **O(m² log m)** — este é o gargalo do algoritmo.
+A seleção `selecionarPais()` é **O(m log m)** por chamada, pois ordena uma cópia da população. Como é chamada `m` vezes por geração (uma para cada filho), o custo total da seleção por geração é **O(m² log m)**
 
 A substituição `SubsPior()` percorre a população para encontrar o pior, resultando em **O(m)** por chamada.
 
